@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Gruselbild Generator</title>
+</head>
+<body>
+    <h2>Erstelle dein eigenes AI-Gruselbild!</h2>
+    <p>Gib eine Beschreibung für dein gruseliges Bild ein und sieh zu, wie die KI es zum Leben erweckt:</p>
+
+    <form id="aiImageForm">
+        <label for="description">Beschreibung:</label>
+        <input type="text" id="description" name="description" placeholder="Beispiel: spooky ghost in a haunted forest" required>
+        <button type="submit">Bild generieren</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('aiImageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var description = document.getElementById('description').value;
+
+            // Request to an AI image generator API (DeepAI example)
+            fetch('https://api.deepai.org/api/text2img', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Api-Key': 'YOUR_API_KEY'  // Hier deine DeepAI API-Schlüssel eingeben
+                },
+                body: JSON.stringify({ text: description })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerHTML = '<img src="' + data.output_url + '" alt="Generated Image" width="500px"/>';
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
